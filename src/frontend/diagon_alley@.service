@@ -1,0 +1,13 @@
+[Unit]
+Description=FAUST CTF diagon alley service
+
+[Service]
+ExecStart=-/usr/bin/stdbuf -o0 /srv/diagon_alley/diagon_alley
+WorkingDirectory=/srv/diagon_alley
+StandardInput=socket
+StandardOutput=socket
+User=diagon_alley
+LimitNPROC=512
+
+Restart=on-failure
+PrivateTmp=yes

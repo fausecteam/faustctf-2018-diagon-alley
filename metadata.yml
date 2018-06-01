@@ -1,0 +1,33 @@
+# Human-readable name of the service
+name: Diagon Alley
+# Name of the service for usage in paths, usernames etc.: Should only consist of lowercase alphanumeric
+# characters
+slug: diagon_alley
+authors:
+  - mightymo <mo@mightym0.de>
+
+install:
+  debian_packages:
+    - build-essential
+    - libtomcrypt-dev
+    - libtfm-dev
+    - libsqlite3-dev
+    - libsqlite3-0
+    - sqlite3
+    - libseccomp-dev
+
+  # These will be run on the Vulnbox after extracting "dist_root" (from the build) to the root file system,
+  # installing Debian packages and creating the service user
+  postinst_commands:
+    - install -o diagon_alley -g diagon_alley -m 700 -d "${DATA_DIR}/flags"
+    - systemctl enable diagon_alley.socket
+
+  prevent_outgoing_connections: True
+
+checker:
+  module: diagon_alley
+  class: DiagonAlleyChecker
+  debian_packages:
+    - python3-requests
+  pip_packages:
+    - nclib
